@@ -1,18 +1,28 @@
 package br.com.fiap.wallet.controller;
 
 import br.com.fiap.wallet.model.User;
+import br.com.fiap.wallet.model.dto.UserDto;
+import br.com.fiap.wallet.model.form.UserForm;
 import br.com.fiap.wallet.repository.UserRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.coyote.Response;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
 
-import java.util.List;
+import java.net.URI;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/user")
@@ -23,15 +33,28 @@ public class UserController {
     @Autowired
     private PasswordEncoder bCryptPasswordEncoder;
 
+    @Autowired
+    private ModelMapper mapper;
+
     @PostMapping("/signup")
-    public User signUp(@RequestBody User user) {
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+    public ResponseEntity<UserDto> signUp(@RequestBody UserForm userForm) {
+        userForm.setPassword(bCryptPasswordEncoder.encode(userForm.getPassword()));
+        final User user = mapper.map(userForm, User.class);
         final var userSaved = userRepository.save(user);
-        return userSaved;
+
+        return ResponseEntity.ok(mapper.map(userSaved, UserDto.class));
     }
 
-    @GetMapping("/users")
-    public ResponseEntity<List<User>> listAllUsers() {
-        return ResponseEntity.ok(userRepository.findAll());
+    @PutMapping("/{cpf}")
+    @Transactional
+    public ResponseEntity<UserDto> updateUser(@PathVariable String cpf, @RequestBody UserForm userForm) {
+        final Optional<User> userOp = userRepository.findByCpf(cpf);
+        if (userOp.isPresent()) {
+            final User user = userOp.get();
+            user.setEmail(userForm.getEmail());
+            user.setCellphone(userForm.getCellphone());
+            return ResponseEntity.ok(mapper.map(user, UserDto.class));
+        }
+        return ResponseEntity.notFound().build();
     }
 }

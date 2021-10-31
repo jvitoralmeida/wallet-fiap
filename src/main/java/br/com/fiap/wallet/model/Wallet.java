@@ -1,5 +1,7 @@
 package br.com.fiap.wallet.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -21,7 +23,8 @@ public class Wallet {
     @OneToOne
     private User user;
     private BigDecimal value;
-    @ManyToMany(cascade = CascadeType.MERGE)
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     @JoinTable(name = "WALLET_STORE_PREFERENCE", joinColumns = @JoinColumn(name = "wallet_id"), inverseJoinColumns = @JoinColumn(name = "partner_store"))
+    @JsonManagedReference
     private Set<PartnerStore> partnerStore;
 }

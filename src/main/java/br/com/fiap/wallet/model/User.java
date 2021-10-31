@@ -24,6 +24,7 @@ public class User{
 	private String name;
 	private LocalDate birthDate;
 	private String email;
+	private Long cellphone;
 	private String cpf;
 	private String password;
 }
