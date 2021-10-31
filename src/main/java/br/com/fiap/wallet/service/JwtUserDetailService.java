@@ -19,9 +19,6 @@ public class JwtUserDetailService implements UserDetailsService {
     @Autowired
     UserRepository repository;
 
-    @Autowired
-    private PasswordEncoder bcryptEncoder;
-
     @Override
     public UserDetails loadUserByUsername(String cpf) throws UsernameNotFoundException {
         final Optional<User> user = repository.findByCpf(cpf);
@@ -32,10 +29,5 @@ public class JwtUserDetailService implements UserDetailsService {
         }else{
             throw new EntityNotFoundException("Usuário não encontrado");
         }
-    }
-
-    public User save(User user) {
-        user.setPassword(bcryptEncoder.encode(user.getPassword()));
-        return repository.save(user);
     }
 }

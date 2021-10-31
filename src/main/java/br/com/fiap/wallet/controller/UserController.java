@@ -24,9 +24,10 @@ public class UserController {
     private PasswordEncoder bCryptPasswordEncoder;
 
     @PostMapping("/signup")
-    public void signUp(@RequestBody User user) {
+    public User signUp(@RequestBody User user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        userRepository.save(user);
+        final var userSaved = userRepository.save(user);
+        return userSaved;
     }
 
     @GetMapping("/users")
