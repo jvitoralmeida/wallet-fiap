@@ -38,7 +38,7 @@ public class WalletPreferenceController {
     public ResponseEntity<Wallet> saveNewPreference(@PathVariable String cpf, @PathVariable Long idStore) {
         final Optional<PartnerStore> store = partnerStoreRepository.findById(idStore);
         final Optional<Wallet> walletOptional = repository.findByUserCpf(cpf);
-        if (store.isPresent()) {
+        if (store.isPresent() && walletOptional.isPresent()) {
             final var partnerStore = store.get();
             final var wallet = walletOptional.get();
             wallet.getPartnerStore().add(partnerStore);
@@ -52,7 +52,7 @@ public class WalletPreferenceController {
     public ResponseEntity<Wallet> deletePreference(@PathVariable String cpf, @PathVariable Long idStore) {
         final Optional<PartnerStore> store = partnerStoreRepository.findById(idStore);
         final Optional<Wallet> walletOptional = repository.findByUserCpf(cpf);
-        if (store.isPresent()) {
+        if (store.isPresent() && walletOptional.isPresent()) {
             final var partnerStore = store.get();
             final var wallet = walletOptional.get();
             wallet.getPartnerStore().remove(partnerStore);

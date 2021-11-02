@@ -1,9 +1,11 @@
 package br.com.fiap.wallet.controller;
 
 import br.com.fiap.wallet.model.User;
+import br.com.fiap.wallet.model.Wallet;
 import br.com.fiap.wallet.model.dto.UserDto;
 import br.com.fiap.wallet.model.form.UserForm;
 import br.com.fiap.wallet.repository.UserRepository;
+import br.com.fiap.wallet.repository.WalletRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 
 @RestController
@@ -28,6 +31,9 @@ public class UserController {
     private PasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
+    private WalletRepository walletRepository;
+
+    @Autowired
     private ModelMapper mapper;
 
     @PostMapping("/signup")
@@ -36,6 +42,8 @@ public class UserController {
         final User user = mapper.map(userForm, User.class);
         final var userSaved = userRepository.save(user);
 
+        final Wallet newWalletUser = Wallet.builder().user(userSaved).value(new BigDecimal("0.0")).build();
+        walletRepository.save(newWalletUser);
         return ResponseEntity.ok(mapper.map(userSaved, UserDto.class));
     }
 
