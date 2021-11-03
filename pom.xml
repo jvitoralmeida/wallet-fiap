@@ -20,6 +20,11 @@
         <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
         <sonar.jacoco.reportPath>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPath>
         <sonar.language>java</sonar.language>
+        <sonar.coverage.exclusions>
+            **/config/*.java,
+            **/repository/*.java,
+            **/model/**/*.java,
+        </sonar.coverage.exclusions>
     </properties>
     <dependencies>
         <dependency>
@@ -127,8 +132,9 @@
                 <version>${jacoco.version}</version>
                 <configuration>
                     <excludes>
-                        <exclude>br/com/fiap/wallet/model/**</exclude>
+                        <exclude>br/com/fiap/wallet/model/**/*.java</exclude>
                         <exclude>br/com/fiap/wallet/repository/**</exclude>
+                        <exclude>br/com/fiap/wallet/config/**</exclude>
                     </excludes>
                 </configuration>
                 <executions>

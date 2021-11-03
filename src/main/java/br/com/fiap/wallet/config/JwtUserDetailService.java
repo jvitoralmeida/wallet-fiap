@@ -1,4 +1,4 @@
-package br.com.fiap.wallet.service;
+package br.com.fiap.wallet.config;
 
 import br.com.fiap.wallet.model.User;
 import br.com.fiap.wallet.repository.UserRepository;
