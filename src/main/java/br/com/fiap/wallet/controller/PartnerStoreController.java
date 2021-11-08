@@ -38,7 +38,7 @@ public class PartnerStoreController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<PartnerStore>> listStores(@PathVariable Long id) {
+    public ResponseEntity<List<PartnerStore>> listStores() {
         return ResponseEntity.ok(storeRepository.findAll());
     }
 

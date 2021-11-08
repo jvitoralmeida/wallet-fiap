@@ -55,7 +55,8 @@ public class UserController {
             final User user = userOp.get();
             user.setEmail(userForm.getEmail());
             user.setCellphone(userForm.getCellphone());
-            return ResponseEntity.ok(mapper.map(user, UserDto.class));
+            UserDto dto = mapper.map(user, UserDto.class);
+            return ResponseEntity.ok(dto);
         }
         return ResponseEntity.notFound().build();
     }

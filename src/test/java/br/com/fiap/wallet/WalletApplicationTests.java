@@ -7,7 +7,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 class WalletApplicationTests {
 
 	@Test
-	void contextLoads() {
+	public void main() {
+		WalletApplication.main(new String[] {});
 	}
 
 }
