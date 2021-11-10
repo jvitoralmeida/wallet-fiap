@@ -14,4 +14,7 @@ public class UserForm {
     private String cpf;
     private Long cellphone;
     private String password;
+    private Boolean sendNotification;
+
+
 }

@@ -27,4 +27,5 @@ public class User{
 	private Long cellphone;
 	private String cpf;
 	private String password;
+	private Boolean sendNotification;
 }
