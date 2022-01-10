@@ -2,6 +2,7 @@ package br.com.fiap.wallet.controller;
 
 import br.com.fiap.wallet.model.PartnerStore;
 import br.com.fiap.wallet.model.Wallet;
+import br.com.fiap.wallet.model.dto.WalletDto;
 import br.com.fiap.wallet.repository.PartnerStoreRepository;
 import br.com.fiap.wallet.repository.WalletRepository;
 import org.junit.jupiter.api.Test;
@@ -112,7 +113,7 @@ public class WalletPreferenceControllerTests {
 		when(repository.findByUserCpf("123")).thenReturn(Optional.of(wallet));
 		when(partnerStoreRepository.findById(1L)).thenReturn(Optional.of(loja));
 
-		final ResponseEntity<Wallet> responseEntity = controller.deletePreference("123", 1L);
+		final ResponseEntity<WalletDto> responseEntity = controller.deletePreference("123", 1L);
 		wallet.setPartnerStore(new HashSet<>());
 
 		assertEquals(responseEntity, ResponseEntity.ok(wallet));
@@ -123,7 +124,7 @@ public class WalletPreferenceControllerTests {
 		when(repository.findByUserCpf("123")).thenReturn(Optional.empty());
 		when(partnerStoreRepository.findById(1L)).thenReturn(Optional.empty());
 
-		final ResponseEntity<Wallet> responseEntity = controller.deletePreference("123", 1L);
+		final ResponseEntity<WalletDto> responseEntity = controller.deletePreference("123", 1L);
 
 		assertEquals(responseEntity, ResponseEntity.notFound()
 				.build());
@@ -133,7 +134,7 @@ public class WalletPreferenceControllerTests {
 	public void mustReturnNotFoundWhenCpfDoesNotExistOnMethodAdd() {
 		when(repository.findByUserCpf("123")).thenReturn(Optional.empty());
 		when(partnerStoreRepository.findById(1L)).thenReturn(Optional.empty());
-		final ResponseEntity<Wallet> responseEntity = controller.saveNewPreference("123", 1L);
+		final ResponseEntity<WalletDto> responseEntity = controller.saveNewPreference("123", 1L);
 		assertEquals(responseEntity, ResponseEntity.notFound()
 				.build());
 	}
@@ -144,7 +145,7 @@ public class WalletPreferenceControllerTests {
 		when(partnerStoreRepository.findById(1L))
 				.thenReturn(Optional.of(PartnerStore.builder()
 						.build()));
-		final ResponseEntity<Wallet> responseEntity = controller.deletePreference("123", 1L);
+		final ResponseEntity<WalletDto> responseEntity = controller.deletePreference("123", 1L);
 		assertEquals(responseEntity, ResponseEntity.notFound()
 				.build());
 	}
@@ -154,7 +155,7 @@ public class WalletPreferenceControllerTests {
 		when(repository.findByUserCpf("123")).thenReturn(Optional.of(Wallet.builder()
 				.build()));
 		when(partnerStoreRepository.findById(1L)).thenReturn(Optional.empty());
-		final ResponseEntity<Wallet> responseEntity = controller.deletePreference("123", 1L);
+		final ResponseEntity<WalletDto> responseEntity = controller.deletePreference("123", 1L);
 		assertEquals(responseEntity, ResponseEntity.notFound()
 				.build());
 	}
