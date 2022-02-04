@@ -3,6 +3,8 @@ package br.com.fiap.wallet.controller;
 import br.com.fiap.wallet.model.PartnerStore;
 import br.com.fiap.wallet.model.dto.PartnerStoreForm;
 import br.com.fiap.wallet.repository.PartnerStoreRepository;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,0 +1,12 @@
+-------------------------------------------------------------------------------
+Test set: br.com.fiap.wallet.controller.WalletPreferenceControllerTests
+-------------------------------------------------------------------------------
+Tests run: 10, Failures: 0, Errors: 2, Skipped: 0, Time elapsed: 0.184 s <<< FAILURE! - in br.com.fiap.wallet.controller.WalletPreferenceControllerTests
+mustDeleteUserPreference  Time elapsed: 0.004 s  <<< ERROR!
+java.lang.NullPointerException
+	at br.com.fiap.wallet.controller.WalletPreferenceControllerTests.mustDeleteUserPreference(WalletPreferenceControllerTests.java:116)
+
+mustAddANewStoreOnTheUserPreferences  Time elapsed: 0.001 s  <<< ERROR!
+java.lang.NullPointerException
+	at br.com.fiap.wallet.controller.WalletPreferenceControllerTests.mustAddANewStoreOnTheUserPreferences(WalletPreferenceControllerTests.java:71)
+

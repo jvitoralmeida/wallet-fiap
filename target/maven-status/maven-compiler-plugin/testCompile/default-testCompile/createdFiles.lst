@@ -1,0 +1,4 @@
+br/com/fiap/wallet/controller/PartnerStoreControllerTests.class
+br/com/fiap/wallet/controller/UserControllerTests.class
+br/com/fiap/wallet/controller/WalletPreferenceControllerTests.class
+br/com/fiap/wallet/WalletApplicationTests.class

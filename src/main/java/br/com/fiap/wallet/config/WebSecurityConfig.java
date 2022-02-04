@@ -19,49 +19,54 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    private UserDetailsService jwtUserDetailsService;
-    private static final String[] AUTH_WHITELIST = {
-            "/v2/api-docs",
-            "/swagger-resources",
-            "/swagger-resources/**",
-            "/configuration/ui",
-            "/configuration/security",
-            "/swagger-ui.html",
-            "/webjars/**"
-    };
+  @Autowired private UserDetailsService jwtUserDetailsService;
+  private static final String[] AUTH_WHITELIST = {
+    "/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**"
+  };
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.cors().and().csrf().disable().authorizeRequests()
-                .antMatchers(AUTH_WHITELIST).permitAll()
-                .antMatchers(HttpMethod.POST, "/user/signup").permitAll()
-                .antMatchers(HttpMethod.POST, "/login").permitAll()
-                .anyRequest().authenticated()
-                .and().addFilter(new AuthenticationFilter(authenticationManager()))
-                .addFilter(new AuthorizationFilter(authenticationManager()))
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-    }
+  @Override
+  protected void configure(HttpSecurity http) throws Exception {
+    http.cors()
+        .and()
+        .csrf()
+        .disable()
+        .authorizeRequests()
+        .antMatchers(AUTH_WHITELIST)
+        .permitAll()
+        .antMatchers(HttpMethod.POST, "/user/signup")
+        .permitAll()
+        .antMatchers(HttpMethod.POST, "/login")
+        .permitAll()
+        .anyRequest()
+        .authenticated()
+        .and()
+        .addFilter(new AuthenticationFilter(authenticationManager()))
+        .addFilter(new AuthorizationFilter(authenticationManager()))
+        .sessionManagement()
+        .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+  }
 
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        web.ignoring()
-                .antMatchers("/h2-console/**");
-    }
+  @Override
+  public void configure(WebSecurity web) throws Exception {
+    web.ignoring().antMatchers("/v3/api-docs/**", "/swagger-ui.html", "/swagger-ui/**");
+  }
 
-    public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
-        authenticationManagerBuilder.userDetailsService(jwtUserDetailsService).passwordEncoder(getBycrypt());
-    }
+  public void configure(AuthenticationManagerBuilder authenticationManagerBuilder)
+      throws Exception {
+    authenticationManagerBuilder
+        .userDetailsService(jwtUserDetailsService)
+        .passwordEncoder(getBycrypt());
+  }
 
-    @Bean
-    public PasswordEncoder getBycrypt() {
-        return new BCryptPasswordEncoder();
-    }
+  @Bean
+  public PasswordEncoder getBycrypt() {
+    return new BCryptPasswordEncoder();
+  }
 
-    @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
-        final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
-        return source;
-    }
+  @Bean
+  public CorsConfigurationSource corsConfigurationSource() {
+    final UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+    source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
+    return source;
+  }
 }
