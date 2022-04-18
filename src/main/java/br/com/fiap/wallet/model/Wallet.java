@@ -6,6 +6,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -27,4 +28,9 @@ public class Wallet {
     @JoinTable(name = "WALLET_STORE_PREFERENCE", joinColumns = @JoinColumn(name = "wallet_id"), inverseJoinColumns = @JoinColumn(name = "partner_store"))
     @JsonManagedReference
     private Set<PartnerStore> partnerStore;
+
+    @OneToMany(mappedBy = "wallet")
+    @JsonManagedReference
+    private List<WalletScore> score;
+
 }

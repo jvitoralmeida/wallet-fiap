@@ -2,6 +2,7 @@ package br.com.fiap.wallet.model.dto;
 
 import br.com.fiap.wallet.model.PartnerStore;
 import br.com.fiap.wallet.model.User;
+import br.com.fiap.wallet.model.WalletScore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,6 +11,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -23,4 +25,5 @@ public class WalletDto {
     private BigDecimal value;
     @JsonManagedReference
     private Set<PartnerStore> partnerStore;
+    private List<WalletScore> score;
 }

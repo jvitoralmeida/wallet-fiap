@@ -35,6 +35,7 @@ public class PartnerStore {
     private String name;
     private String cnpj;
     private Long percent;
+    private String urlLogo;
     @ManyToMany(mappedBy = "partnerStore",fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JsonBackReference
     private Set<Wallet> wallet;

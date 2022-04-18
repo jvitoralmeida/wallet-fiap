@@ -5,13 +5,17 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
-@NoArgsConstructor
+import java.math.BigDecimal;
+
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
-public class PartnerStoreForm {
+@Data
+public class PartnerStoreDto {
+    private Long id;
     private String name;
     private String cnpj;
     private Long percent;
     private String urlLogo;
+    private BigDecimal valueWallet;
 }

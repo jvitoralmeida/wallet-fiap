@@ -6,6 +6,7 @@ import br.com.fiap.wallet.model.dto.UserDto;
 import br.com.fiap.wallet.model.form.UserForm;
 import br.com.fiap.wallet.repository.UserRepository;
 import br.com.fiap.wallet.repository.WalletRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +24,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/user")
+@Slf4j
 public class UserController {
 
   @Autowired private UserRepository userRepository;
@@ -34,6 +36,9 @@ public class UserController {
 
   @PostMapping("/signup")
   public ResponseEntity<UserDto> signUp(@RequestBody UserForm userForm) {
+
+    log.info("signUp method controller was called");
+
     userForm.setPassword(bCryptPasswordEncoder.encode(userForm.getPassword()));
     final User user = mapper.map(userForm, User.class);
     final var userSaved = userRepository.save(user);

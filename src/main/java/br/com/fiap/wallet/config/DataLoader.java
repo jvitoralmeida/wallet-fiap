@@ -29,9 +29,9 @@ public class DataLoader implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        final var store1 = PartnerStore.builder().cnpj("1").name("starbucks").percent(5L).build();
-        final var store2 = PartnerStore.builder().cnpj("2").name("riachuelo").percent(3L).build();
-        final var store3 = PartnerStore.builder().cnpj("3").name("saraiva").percent(10L).build();
+        final var store1 = PartnerStore.builder().cnpj("1").name("Starbucks").percent(5L).urlLogo("https://upload.wikimedia.org/wikipedia/pt/0/0f/Starbucks_Corporation_Logo_2011.svg.png").build();
+        final var store2 = PartnerStore.builder().cnpj("2").name("Riachuelo").percent(3L).urlLogo("https://99prod.s3.amazonaws.com/uploads/c1723294-8cc6-4692-a9bd-8fdbcac6d50d/riachuelo.png").build();
+        final var store3 = PartnerStore.builder().cnpj("3").name("Saraiva").percent(10L).urlLogo("https://pbs.twimg.com/profile_images/1213100715478016001/ze-4gdQR_400x400.jpg").build();
 
         storeRepository.saveAll(Arrays.asList(store1, store2, store3));
 

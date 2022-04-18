@@ -70,6 +70,7 @@ public class WalletController {
             .user(mapper.map(customerWallet.getUser(), UserDto.class))
             .partnerStore(customerWallet.getPartnerStore())
             .value(customerWallet.getValue())
+            .score(customerWallet.getScore())
             .build();
     return ResponseEntity.ok(build);
   }

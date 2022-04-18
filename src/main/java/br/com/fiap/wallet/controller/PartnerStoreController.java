@@ -27,46 +27,51 @@ import java.util.Optional;
 @Slf4j
 public class PartnerStoreController {
 
-    @Autowired
-    PartnerStoreRepository storeRepository;
+  @Autowired PartnerStoreRepository storeRepository;
 
-    @Autowired
-    ModelMapper mapper;
+  @Autowired ModelMapper mapper;
 
-    @GetMapping("/{id}")
-    public ResponseEntity<PartnerStore> getById(@PathVariable Long id) {
-        final var partnerStore = storeRepository.findById(id);
-        return partnerStore.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+  @GetMapping("/{id}")
+  public ResponseEntity<PartnerStore> getById(@PathVariable Long id) {
+    final var partnerStore = storeRepository.findById(id);
+    return partnerStore.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+  }
+
+  @GetMapping("/name/{name}")
+  public ResponseEntity<List<PartnerStore>> getByName(@PathVariable String name) {
+    final var partnerStore = storeRepository.findByNameContainingIgnoreCase(name);
+    return ResponseEntity.ok(partnerStore);
+  }
+
+  @GetMapping()
+  public ResponseEntity<List<PartnerStore>> listStores() {
+    return ResponseEntity.ok(storeRepository.findAll());
+  }
+
+  @PostMapping()
+  public ResponseEntity<PartnerStore> saveNewStore(@RequestBody PartnerStoreForm store) {
+    final var storeSaved = storeRepository.save(mapper.map(store, PartnerStore.class));
+    return ResponseEntity.ok(storeSaved);
+  }
+
+  @DeleteMapping("/{id}")
+  public ResponseEntity<?> deleteById(@PathVariable Long id) {
+    storeRepository.deleteById(id);
+    return ResponseEntity.noContent().build();
+  }
+
+  @PutMapping("/{id}")
+  @Transactional
+  public ResponseEntity<?> updateById(@PathVariable Long id, @RequestBody PartnerStoreForm store) {
+    final Optional<PartnerStore> partnerStore = storeRepository.findById(id);
+    if (partnerStore.isPresent()) {
+      final var storeToUpdate = partnerStore.get();
+      storeToUpdate.setName(store.getName());
+      storeToUpdate.setCnpj(store.getCnpj());
+      storeToUpdate.setPercent(store.getPercent());
+      storeToUpdate.setUrlLogo(store.getUrlLogo());
+      return ResponseEntity.ok(storeToUpdate);
     }
-
-    @GetMapping()
-    public ResponseEntity<List<PartnerStore>> listStores() {
-        return ResponseEntity.ok(storeRepository.findAll());
-    }
-
-    @PostMapping()
-    public ResponseEntity<PartnerStore> saveNewStore(@RequestBody PartnerStoreForm store) {
-        final var storeSaved = storeRepository.save(mapper.map(store, PartnerStore.class));
-        return ResponseEntity.ok(storeSaved);
-    }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteById(@PathVariable Long id) {
-        storeRepository.deleteById(id);
-        return ResponseEntity.noContent().build();
-    }
-
-    @PutMapping("/{id}")
-    @Transactional
-    public ResponseEntity<?> updateById(@PathVariable Long id, @RequestBody PartnerStoreForm store) {
-        final Optional<PartnerStore> partnerStore = storeRepository.findById(id);
-        if (partnerStore.isPresent()) {
-            final var storeToUpdate = partnerStore.get();
-            storeToUpdate.setName(store.getName());
-            storeToUpdate.setCnpj(store.getCnpj());
-            storeToUpdate.setPercent(store.getPercent());
-            return ResponseEntity.ok(storeToUpdate);
-        }
-        return ResponseEntity.notFound().build();
-    }
+    return ResponseEntity.notFound().build();
+  }
 }

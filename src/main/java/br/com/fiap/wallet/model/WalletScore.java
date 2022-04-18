@@ -1,5 +1,6 @@
 package br.com.fiap.wallet.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 import org.springframework.lang.Nullable;
 
@@ -19,8 +20,9 @@ public class WalletScore {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @OneToOne(fetch = FetchType.EAGER)
+  @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "wallet_id")
+  @JsonBackReference
   private Wallet wallet;
 
   @OneToOne(fetch = FetchType.EAGER)
@@ -29,5 +31,4 @@ public class WalletScore {
 
   private BigDecimal value;
   private String transactionId;
-
 }

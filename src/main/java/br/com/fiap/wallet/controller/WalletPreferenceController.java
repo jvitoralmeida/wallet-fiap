@@ -2,6 +2,7 @@ package br.com.fiap.wallet.controller;
 
 import br.com.fiap.wallet.model.PartnerStore;
 import br.com.fiap.wallet.model.Wallet;
+import br.com.fiap.wallet.model.dto.PartnerStoreDto;
 import br.com.fiap.wallet.model.dto.UserDto;
 import br.com.fiap.wallet.model.dto.WalletDto;
 import br.com.fiap.wallet.repository.PartnerStoreRepository;
@@ -33,6 +34,7 @@ public class WalletPreferenceController {
   @GetMapping("/{cpf}")
   public ResponseEntity<Set<PartnerStore>> getMyPreferences(@PathVariable String cpf) {
     final Optional<Wallet> wallet = repository.findByUserCpf(cpf);
+
     return wallet
         .map(value -> ResponseEntity.ok(value.getPartnerStore()))
         .orElseGet(() -> ResponseEntity.notFound().build());
